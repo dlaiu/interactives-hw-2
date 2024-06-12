@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<body>
+    <svg>
+
+
+    </svg>
+</body>
+
+<script>
+    //Combine multiple scale types to create a visualization. 
+    //Use scaleLinear to map a dataset of values [10, 20, 30, 40, 50] to a range of [0, 500] on the x-axis. 
+    //Use scaleSqrt to map another dataset of values [100, 200, 300, 400, 500] to a range of [0, 100] on the y-axis. 
+    //Plot the transformed values on a 2D scatter plot.
+
+
+    var dataset1 = [10, 20, 30, 40, 50]
+    var dataset2 = [100, 200, 300, 400, 500]
+
+    var svg = d3.select("svg")
+                .attr("width", 1000)
+                .attr("height", 1000)
+
+    const scale1 = d3.scaleLinear()
+                    .domain([10, 50])
+                    .range([0, 500])
+
+    const scale2 = d3.scaleSqrt()
+                    .domain([100, 500])
+                    .range([0, 100])
+
+    var xAxis = svg.append("g")
+                    .call(d3.axisBottom(scale1))
+                    .attr("transform", "translate(40,300)");
+
+    var yAxis = svg.append("g")
+                    .call(d3.axisLeft(scale2))
+                    .attr("transform", "translate(40,300)");
+
+    
+    svg.selectAll("circle")
+        .data(dataset1)
+        .join("circle")
+        .attr("cx", (d) => scale1(d))
+        .attr("cy", (d, i) => scale2(dataset2[i]))
+        .attr("r", 5)
+        .attr("fill", "red")
+        .attr("transform", "translate(40,300)")
+
+
+
+</script>
+</html>
